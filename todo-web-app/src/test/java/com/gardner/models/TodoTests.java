@@ -10,7 +10,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TodoTest {
+public class TodoTests {
 
 	private String testTitle;
 	
