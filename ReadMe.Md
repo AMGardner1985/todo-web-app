@@ -6,3 +6,6 @@
   1. if container exists can run `docker restart todo-mongo`
 1. open terminal and go to the backend service root directory
 1. start the backend with `mvn spring-boot:run` 
+
+## See info about making this from this tuttorial 
+https://www.callicoder.com/spring-boot-mongodb-angular-js-rest-api-tutorial/
