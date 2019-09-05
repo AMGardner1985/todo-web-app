@@ -1,74 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
-import { Todo } from './todo'
-import { NgForm } from '@angular/forms';
+import { Todo } from './todo';
+import {NgForm} from '@angular/forms';
 
 @Component({
-    selector: 'todo-list',
-    templateUrl: './todo-list.component.html'
+  selector: 'todo-list',
+  templateUrl: './todo-list.component.html'
 })
 
 export class TodoListComponent implements OnInit {
-    todos: Todo[];
-    newTodo:Todo = new Todo();
-    editing: boolean = false;
-    editingTodo: Todo = new Todo();
-    
-    constructor(
-        private todoService: TodoService,
-    ){}
+  todos: Todo[];
+  newTodo: Todo = new Todo();
+  editing: boolean = false;
+  editingTodo: Todo = new Todo();
 
-    ngOnInit(): void {
-        this.getTodos();
-    }
+  constructor(
+    private todoService: TodoService,
+  ) {}
 
-    getTodos() {
-        this.todoService.getTodos()
-            .then(todos => this.todos = todos );
-    }
+  ngOnInit(): void {
+    this.getTodos();
+  }
 
-    createTodo(todoForm: NgForm): void{
-        this.todoService.createTodo(this.newTodo)
-            .then(createTodo => {
-                todoForm.reset();
-                this.newTodo = new Todo();
-                this.todos.unshift(createTodo)
-            });
-    }
-    
-    deleteTodo(id: string): void{
-        this.todoService.deleteTodo(id)
-            .then(() => {
-                this.todos = this.todos.filter(todo => todo.id != id);
-            });
-    }
+  getTodos(): void {
+    this.todoService.getTodos()
+      .then(todos => this.todos = todos );    
+  }
 
-    updateTodo(todoData: Todo): void {
-        console.log(todoData);
-        this.todoService.updateTodo(todoData)
-        .then(updatedTodo => {
-            let existingTodo = this.todos.find(todo => todo.id === this.updateTodo.id);
-            Object.assign(existingTodo, updatedTodo);
-            this.clearEditing();
-        });
-    }
+  createTodo(todoForm: NgForm): void {
+    this.todoService.createTodo(this.newTodo)
+      .then(createTodo => {        
+        todoForm.reset();
+        this.newTodo = new Todo();
+        this.todos.unshift(createTodo)
+      });
+  }
 
-    toggleCompleted(todoData: Todo): void {
-        todoData.completed = !todoData.completed;
-        this.todoService.updateTodo(todoData)
-            .then(updatedTodo => {
-                let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
-                Object.assign(existingTodo, updatedTodo);
-            });
-    }
+  deleteTodo(id: string): void {
+    this.todoService.deleteTodo(id)
+    .then(() => {
+      this.todos = this.todos.filter(todo => todo.id != id);
+    });
+  }
 
-    editTodo(todoData: Todo): void {
-        this.editing = true;
-        Object.assign(this.editingTodo, todoData);
-    }
+  updateTodo(todoData: Todo): void {
+    console.log(todoData);
+    this.todoService.updateTodo(todoData)
+    .then(updatedTodo => {
+      let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
+      Object.assign(existingTodo, updatedTodo);
+      this.clearEditing();
+    });
+  }
 
-    clearEditing(): void {
-        this.editingTodo = new Todo();
-        this.editing = false;
-    }
+  toggleCompleted(todoData: Todo): void {
+    todoData.completed = !todoData.completed;
+    this.todoService.updateTodo(todoData)
+    .then(updatedTodo => {
+      let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
+      Object.assign(existingTodo, updatedTodo);
+    });
+  }
+
+  editTodo(todoData: Todo): void {
+    this.editing = true;
+    Object.assign(this.editingTodo, todoData);
+  }
+
+  clearEditing(): void {
+    this.editingTodo = new Todo();
+    this.editing = false;
+  }
 }
