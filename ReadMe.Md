@@ -1,4 +1,5 @@
 # Todo Web App
+Sammple application with a spring backend / mongo db / and angular frontend. 
 
 ## Set up notes
 1. pulled docker image of mongo db for local `docker pull mongo`
